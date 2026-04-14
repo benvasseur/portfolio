@@ -29,6 +29,10 @@ const skillGroups = [
     category: "DevOps & Tools",
     skills: ["Docker", "AWS", "CI/CD", "Vercel", "Cypress", "Git", "Figma"],
   },
+  {
+    category: "Languages",
+    skills: ["French (Native)", "English (Fluent)", "Korean (TOPIK 2)"],
+  },
 ];
 
 export default function Skills() {

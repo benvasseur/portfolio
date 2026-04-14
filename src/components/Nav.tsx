@@ -35,7 +35,7 @@ export default function Nav() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <a
           href="#"
-          className="text-lg font-semibold text-neutral-100 hover:text-accent transition-colors"
+          className="flex h-8 w-8 items-center justify-center rounded-md border border-accent/40 text-sm font-bold text-neutral-100 transition-colors hover:border-accent hover:text-accent"
         >
           BV
         </a>
