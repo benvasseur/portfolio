@@ -31,7 +31,10 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
     >
-      <body>{children}</body>
+      <body>
+        <script defer src="https://cloud.umami.is/script.js" data-website-id="b152d8a1-ae1f-4cb5-982b-8641f601a950" />
+        {children}
+      </body>
     </html>
   );
 }
