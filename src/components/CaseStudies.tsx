@@ -31,7 +31,7 @@ const cases: CaseStudy[] = [
     solution:
       "Rewrote the rendering engine using Canvas with incremental drawing instead of full redraws. Optimized the data pipeline to only process and render changed regions, maintaining a stable frame rate with continuous data updates.",
     result:
-      "Achieved a 20x rendering speed improvement — from 3–4 FPS to a stable 60 FPS. Smooth scrolling and real-time updates with no frame drops during continuous data streaming.",
+      "Achieved a 20x rendering speed improvement, from 3-4 FPS to a stable 60 FPS. Smooth scrolling and real-time updates with no frame drops during continuous data streaming.",
     tech: ["Vue.js", "Canvas API", "TypeScript"],
     image: "/images/cases/lvis-amplitude.png",
     video: "/videos/lvis-amplitude.mp4",

@@ -19,7 +19,7 @@ export default function About() {
           <div className="max-w-2xl space-y-4 text-neutral-400 leading-relaxed">
             <p>
               I started my career in web development with a strong backend
-              foundation — PHP, then Node.js and Python — which helps me
+              foundation (PHP, then Node.js and Python), which helps me
               understand full product systems end to end.
             </p>
             <p>

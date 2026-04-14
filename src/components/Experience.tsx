@@ -19,7 +19,7 @@ const jobs: Job[] = [
     period: "Aug 2024 – Sep 2025",
     highlights: [
       "Built a platform for EEG analysis with AI, detecting seizures and neurological events",
-      "Implemented canvas rendering for EEG amplitude heatmap — 3-4 FPS to stable 60 FPS (20x faster)",
+      "Implemented canvas rendering for EEG amplitude heatmap, from 3-4 FPS to stable 60 FPS (20x faster)",
       "Led development of user/team management app with Stripe and KG Inicis payment integration",
     ],
   },

@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Benjamin Vasseur — Full-Stack Developer",
+  title: "Benjamin Vasseur - Full-Stack Developer",
   description:
     "Full-stack developer with 10+ years of experience, specializing in high-performance rendering and data-intensive web applications.",
   icons: {
