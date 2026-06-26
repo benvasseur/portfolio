@@ -97,7 +97,7 @@ export default function Hero() {
             Get in Touch
           </a>
           <a
-            href="/benjamin-vasseur-resume.pdf"
+            href="/Benjamin_Vasseur_Resume.pdf"
             download
             className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-6 py-3 text-sm font-medium text-neutral-300 transition-colors hover:border-neutral-500 hover:text-neutral-100"
           >
