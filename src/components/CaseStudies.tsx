@@ -15,7 +15,10 @@ interface CaseStudy {
   result: string;
   tech: string[];
   image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   video?: string;
+  link?: string;
 }
 
 const cases: CaseStudy[] = [
@@ -50,8 +53,27 @@ const cases: CaseStudy[] = [
     result:
       "Optimized rendering time by 50% when displaying whole-slide images containing millions of cells. Achieved smooth real-time interactions across zoom, pan, hover, and threshold changes.",
     tech: ["React", "TypeScript", "WebGL", "Web Workers", "Nx"],
-    image: "/images/cases/lunit-uihc.png",
+    image: "/images/cases/lunit-uihc.webp",
     video: "/videos/lunit-uihc.mp4",
+  },
+  {
+    id: "korean-anki-miner",
+    company: "Side Project",
+    title: "Korean Anki Miner",
+    period: "2026",
+    context:
+      "A Chrome extension (Manifest V3) that turns Korean YouTube subtitles into Anki flashcards. Existing immersion tools lock the core mining loop, see a word, get its meaning, save it to Anki, behind subscriptions and feature bloat. This does only that loop, and does it fast.",
+    challenge:
+      "Building inside a live YouTube page means reading captions reliably across the SPA's in-place navigation, isolating the UI so its CSS and YouTube's never collide, and keeping API keys off a page hostile scripts can read. Two jobs also pull in opposite directions: per-word translation must be near-instant and cheap, while card enrichment can be slower but needs structured output.",
+    solution:
+      "Built on WXT with Vue 3 and TypeScript. A strict trust boundary keeps all secrets and network calls in the service worker; the content script owns the DOM but holds nothing sensitive. The overlay mounts inside a Shadow DOM, and captions are read from the rendered DOM rather than YouTube's now token-gated endpoint. A two-provider split behind adapter interfaces routes the click path to Papago (fast, cached by surface form) and on-demand enrichment to Claude (structured output, model-selectable).",
+    result:
+      "A working, releasable extension: click a word and a finished Anki card, screenshot and AI explanation included, lands in a couple of seconds. CI type-checks and builds on every push, and tagged releases publish a packaged zip automatically. The adapter layer leaves translation and AI providers swappable without touching callers.",
+    tech: ["Vue 3", "TypeScript", "WXT", "Chrome MV3", "Anthropic SDK", "AnkiConnect"],
+    image: "/images/cases/korean-anki-miner.webp",
+    imageWidth: 2560,
+    imageHeight: 1027,
+    link: "https://github.com/benvasseur/korean-anki-miner",
   },
 ];
 
@@ -81,8 +103,8 @@ function CaseCard({ study, index }: { study: CaseStudy; index: number }) {
           <Image
             src={study.image}
             alt={study.title}
-            width={1410}
-            height={809}
+            width={study.imageWidth ?? 1410}
+            height={study.imageHeight ?? 809}
             className="w-full h-auto"
           />
         ) : (
@@ -153,6 +175,25 @@ function CaseCard({ study, index }: { study: CaseStudy; index: number }) {
             </span>
           ))}
         </div>
+
+        {study.link && (
+          <a
+            href={study.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-neutral-400 transition-colors hover:text-accent"
+          >
+            <svg
+              className="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.34-5.47-5.95 0-1.31.47-2.39 1.24-3.23-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.92 1.23 3.23 0 4.62-2.81 5.64-5.49 5.94.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z" />
+            </svg>
+            View on GitHub
+          </a>
+        )}
       </div>
     </motion.article>
   );
@@ -164,7 +205,7 @@ export default function CaseStudies() {
       <div className="mx-auto max-w-4xl">
         <SectionHeading
           title="Case Studies"
-          subtitle="Deep dives into performance challenges I solved"
+          subtitle="Deep dives into the hardest engineering problems I've solved"
         />
         <div className="space-y-12">
           {cases.map((study, i) => (
