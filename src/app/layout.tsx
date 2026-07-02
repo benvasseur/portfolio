@@ -12,12 +12,23 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const title = "Benjamin Vasseur - Full-Stack Software Engineer";
+const description =
+  "Full-stack software engineer, 14+ years building REST APIs, microservices, and data-heavy React apps in Node.js and Python for medical and financial clients.";
+
 export const metadata: Metadata = {
-  title: "Benjamin Vasseur - Full-Stack Developer",
-  description:
-    "Full-stack developer with 10+ years of experience, specializing in high-performance rendering and data-intensive web applications.",
+  title,
+  description,
   icons: {
     icon: "/favicon.svg",
+  },
+  openGraph: {
+    title,
+    description,
+  },
+  twitter: {
+    title,
+    description,
   },
 };
 

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const metrics = [
   { value: "20", unit: "×", label: "Rendering speed" },
   { value: "50", unit: "%", label: "Load time cut" },
-  { value: "10", unit: "+", label: "Years experience" },
+  { value: "14", unit: "+", label: "Years experience" },
 ];
 
 export default function Hero() {
@@ -37,8 +37,9 @@ export default function Hero() {
         transition={{ duration: 0.5, delay: 0.5 }}
         className="mt-[30px] max-w-[620px] text-[22px] leading-[1.5] text-muted"
       >
-        I build high-performance, real-time interfaces. 60fps canvas &amp; WebGL
-        for data-heavy medical and scientific applications.
+        I build production systems end to end: REST APIs and microservices in
+        Node.js and Python, plus the data-heavy React and WebGL interfaces on
+        top.
       </motion.p>
 
       <motion.div
