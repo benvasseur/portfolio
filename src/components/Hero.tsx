@@ -37,9 +37,7 @@ export default function Hero() {
         transition={{ duration: 0.5, delay: 0.5 }}
         className="mt-[30px] max-w-[620px] text-[22px] leading-[1.5] text-muted"
       >
-        I build production systems end to end: REST APIs and microservices in
-        Node.js and Python, plus the data-heavy React and WebGL interfaces on
-        top.
+        I build production systems end to end: REST APIs and microservices in Node.js, plus the data-heavy React and WebGL interfaces on top.
       </motion.p>
 
       <motion.div
