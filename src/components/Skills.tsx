@@ -3,10 +3,15 @@
 import { motion } from "framer-motion";
 import SectionHeading from "./SectionHeading";
 
-const skillGroups = [
+interface SkillGroup {
+  name: string;
+  items: string[];
+}
+
+const skillGroups: SkillGroup[] = [
   {
-    category: "Front-End",
-    skills: [
+    name: "Front-End",
+    items: [
       "TypeScript",
       "React",
       "Next.js",
@@ -14,60 +19,59 @@ const skillGroups = [
       "Vite",
       "WebGL",
       "Canvas",
-      "Tailwind CSS",
+      "Tailwind",
     ],
   },
   {
-    category: "Back-End",
-    skills: ["Node.js", "Express", "Python", "PHP", "REST APIs"],
+    name: "Back-End",
+    items: ["Node.js", "Express", "Python", "PHP", "REST APIs"],
   },
   {
-    category: "Database",
-    skills: ["PostgreSQL", "MySQL", "MongoDB", "MariaDB"],
+    name: "Database",
+    items: ["PostgreSQL", "MySQL", "MongoDB", "MariaDB"],
   },
   {
-    category: "DevOps & Tools",
-    skills: ["Docker", "AWS", "CI/CD", "Vercel", "Cypress", "Git", "Figma"],
+    name: "DevOps",
+    items: ["Docker", "AWS", "CI/CD", "Vercel", "Cypress", "Git", "Figma"],
   },
   {
-    category: "Languages",
-    skills: ["French (Native)", "English (Fluent)", "Korean (TOPIK 2)"],
+    name: "Languages",
+    items: ["French · native", "English · fluent", "Korean · TOPIK 2"],
   },
 ];
 
 export default function Skills() {
   return (
-    <section id="skills" className="px-6 py-24">
-      <div className="mx-auto max-w-4xl">
-        <SectionHeading title="Skills" />
+    <section
+      id="skills"
+      className="mx-auto max-w-[1080px] px-6 pt-24 sm:px-10 sm:pt-[96px]"
+    >
+      <SectionHeading title="Skills" />
 
-        <div className="grid gap-6 sm:grid-cols-2">
-          {skillGroups.map((group, i) => (
-            <motion.div
-              key={group.category}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6"
-            >
-              <h3 className="mb-4 text-sm font-semibold tracking-widest text-accent uppercase">
-                {group.category}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {group.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="rounded-md border border-neutral-700 bg-neutral-800 px-3 py-1.5 text-sm text-neutral-300"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+      {skillGroups.map((group, i) => (
+        <motion.div
+          key={group.name}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.4, delay: i * 0.04 }}
+          className="grid grid-cols-1 gap-x-8 gap-y-3 border-b border-ink/[0.08] py-5 sm:grid-cols-[185px_1fr]"
+        >
+          <div className="pt-1 font-mono text-[11px] uppercase tracking-[0.08em] text-accent">
+            {group.name}
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {group.items.map((item) => (
+              <span
+                key={item}
+                className="rounded-[2px] bg-chip px-3 py-1.5 font-mono text-[13px] text-chip-ink"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+      ))}
     </section>
   );
 }

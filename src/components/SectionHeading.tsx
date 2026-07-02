@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 
 export default function SectionHeading({
   title,
-  subtitle,
+  meta,
 }: {
   title: string;
-  subtitle?: string;
+  meta?: string;
 }) {
   return (
     <motion.div
@@ -15,15 +15,16 @@ export default function SectionHeading({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5 }}
-      className="mb-12"
+      className="flex items-baseline justify-between border-b border-ink/15 pb-[18px]"
     >
-      <h2 className="text-3xl font-bold text-neutral-100 sm:text-4xl">
+      <h2 className="text-[32px] font-semibold tracking-[-0.02em] text-ink">
         {title}
       </h2>
-      {subtitle && (
-        <p className="mt-2 text-neutral-400 text-lg">{subtitle}</p>
+      {meta && (
+        <span className="font-mono text-xs uppercase tracking-[0.08em] text-label">
+          {meta}
+        </span>
       )}
-      <div className="mt-4 h-px w-16 bg-accent" />
     </motion.div>
   );
 }

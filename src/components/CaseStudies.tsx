@@ -1,218 +1,275 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import SectionHeading from "./SectionHeading";
+import CaseModal from "./CaseModal";
 
-interface CaseStudy {
-  id: string;
-  company: string;
-  title: string;
+export interface CaseLink {
+  label: string;
+  href: string;
+}
+
+export interface CaseStudy {
+  num: string;
+  client: string;
   period: string;
-  context: string;
+  role?: string;
+  title: string;
+  metric: string;
+  unit: string;
+  metricLabel: string;
+  tags: string[];
+  overview: string;
   challenge: string;
   solution: string;
   result: string;
-  tech: string[];
+  highlights: string[];
+  links?: CaseLink[];
+  video?: string;
+  poster?: string;
   image?: string;
   imageWidth?: number;
   imageHeight?: number;
-  video?: string;
-  link?: string;
 }
 
 const cases: CaseStudy[] = [
   {
-    id: "lvis",
-    company: "LVIS Corp",
+    num: "01",
+    client: "LVIS Corp",
+    period: "2024–2025",
+    role: "Front-End Developer",
     title: "Live EEG Amplitude Heatmap",
-    period: "2024 – 2025",
-    context:
-      "A platform for live EEG visualization, including multiple widgets for real-time brain activity monitoring. The amplitude map provides a real-time overview of brain activity, originally built ~10 years ago as a non-real-time visualization.",
+    metric: "20",
+    unit: "×",
+    metricLabel: "faster rendering\n3–4 FPS → stable 60 FPS",
+    tags: ["Vue.js", "Canvas API", "TypeScript"],
+    overview:
+      "A clinical EEG platform streaming continuous multi-channel brain activity. The amplitude heatmap is the primary read surface: clinicians scrub through hours of signal, so any stutter directly hurts diagnosis.",
     challenge:
-      "Requirements evolved to live updates, but the existing SVG-based implementation performed full redraws on every data update. Performance degraded rapidly as data streamed in, making the visualization unusable for real-time monitoring.",
+      "The SVG implementation did full redraws on every update. Performance collapsed as live data streamed in, making real-time monitoring unusable.",
     solution:
-      "Rewrote the rendering engine using Canvas with incremental drawing instead of full redraws. Optimized the data pipeline to only process and render changed regions, maintaining a stable frame rate with continuous data updates.",
+      "Rewrote the engine on Canvas with incremental drawing (only changed regions re-render) and trimmed the data pipeline to a stable frame rate.",
     result:
-      "Achieved a 20x rendering speed improvement, from 3-4 FPS to a stable 60 FPS. Smooth scrolling and real-time updates with no frame drops during continuous data streaming.",
-    tech: ["Vue.js", "Canvas API", "TypeScript"],
-    image: "/images/cases/lvis-amplitude.png",
+      "From 3–4 FPS to a steady 60 FPS. Smooth scrolling and real-time updates with zero frame drops during continuous streaming.",
+    highlights: [
+      "Incremental region-based redraw instead of full-frame repaint",
+      "Decoupled data ingestion from the render loop",
+      "Held 60 FPS on hours-long continuous recordings",
+    ],
+    links: [],
     video: "/videos/lvis-amplitude.mp4",
+    poster: "/images/cases/lvis-amplitude.png",
   },
   {
-    id: "lunit",
-    company: "Lunit",
+    num: "02",
+    client: "Lunit",
+    period: "2021–2023",
+    role: "Front-End Developer",
     title: "Cancer Cell Detection Viewer (uIHC v3)",
-    period: "2021 – 2023",
-    context:
-      "A platform for pathologists to explore very large whole-slide images and inspect AI-detected cells and biomarkers. Users interact at cell-level with hover, threshold adjustments, and dynamic redraws.",
+    metric: "50",
+    unit: "%",
+    metricLabel: "render time cut\non 5GB whole-slide images",
+    tags: ["React", "WebGL", "Web Workers", "TypeScript", "Nx"],
+    overview:
+      "A pathology viewer for AI-analyzed whole-slide images. Pathologists pan and zoom across gigapixel scans while millions of detected cells are drawn as an interactive overlay.",
     challenge:
-      "Each slide contains millions of cells with multiple associated properties. Data size and redraw cost increase rapidly with interaction. All interactions (zoom, pan, hover, threshold changes) must remain smooth on images up to 5GB.",
+      "Slides hold millions of cells with many properties. Zoom, pan, hover and threshold changes had to stay smooth on images up to 5GB.",
     solution:
-      "Limited minimum zoom level to control data density. Moved heavy computation and preprocessing to Web Workers to keep the main thread responsive. Used WebGL for GPU-accelerated cell rendering with efficient tile-based loading.",
+      "Capped minimum zoom to control density, moved heavy preprocessing to Web Workers, and used WebGL with tile-based loading for GPU-accelerated cells.",
     result:
-      "Optimized rendering time by 50% when displaying whole-slide images containing millions of cells. Achieved smooth real-time interactions across zoom, pan, hover, and threshold changes.",
-    tech: ["React", "TypeScript", "WebGL", "Web Workers", "Nx"],
-    image: "/images/cases/lunit-uihc.webp",
+      "Halved rendering time on million-cell slides while keeping all interactions smooth in real time.",
+    highlights: [
+      "GPU-instanced rendering of millions of cell markers",
+      "Tile-based loading tied to the viewport",
+      "Preprocessing offloaded to Web Workers to keep the main thread free",
+    ],
+    links: [],
     video: "/videos/lunit-uihc.mp4",
+    poster: "/images/cases/lunit-uihc.webp",
   },
   {
-    id: "korean-anki-miner",
-    company: "Side Project",
-    title: "Korean Anki Miner",
+    num: "03",
+    client: "Side project",
     period: "2026",
-    context:
-      "A Chrome extension (Manifest V3) that turns Korean YouTube subtitles into Anki flashcards. Existing immersion tools lock the core mining loop, see a word, get its meaning, save it to Anki, behind subscriptions and feature bloat. This does only that loop, and does it fast.",
+    role: "Solo build",
+    title: "Korean Anki Miner",
+    metric: "~2",
+    unit: "s",
+    metricLabel: "click → finished\nAnki card, end to end",
+    tags: ["Vue 3", "TypeScript", "WXT", "Chrome MV3", "Claude"],
+    overview:
+      "A browser extension that turns any Korean word on a YouTube subtitle into a complete Anki flashcard: screenshot, translation and an AI-written explanation, in a couple of seconds.",
     challenge:
-      "Building inside a live YouTube page means reading captions reliably across the SPA's in-place navigation, isolating the UI so its CSS and YouTube's never collide, and keeping API keys off a page hostile scripts can read. Two jobs also pull in opposite directions: per-word translation must be near-instant and cheap, while card enrichment can be slower but needs structured output.",
+      "Read YouTube captions reliably across SPA navigation, isolate the overlay from YouTube's CSS, and keep API keys away from hostile page scripts.",
     solution:
-      "Built on WXT with Vue 3 and TypeScript. A strict trust boundary keeps all secrets and network calls in the service worker; the content script owns the DOM but holds nothing sensitive. The overlay mounts inside a Shadow DOM, and captions are read from the rendered DOM rather than YouTube's now token-gated endpoint. A two-provider split behind adapter interfaces routes the click path to Papago (fast, cached by surface form) and on-demand enrichment to Claude (structured output, model-selectable).",
+      "A strict trust boundary keeps secrets in the service worker; the UI mounts in a Shadow DOM. Papago handles fast lookups, Claude handles structured card enrichment.",
     result:
-      "A working, releasable extension: click a word and a finished Anki card, screenshot and AI explanation included, lands in a couple of seconds. CI type-checks and builds on every push, and tagged releases publish a packaged zip automatically. The adapter layer leaves translation and AI providers swappable without touching callers.",
-    tech: ["Vue 3", "TypeScript", "WXT", "Chrome MV3", "Anthropic SDK", "AnkiConnect"],
-    image: "/images/cases/korean-anki-miner.webp",
-    imageWidth: 2560,
-    imageHeight: 1027,
-    link: "https://github.com/benvasseur/korean-anki-miner",
+      "A releasable MV3 extension: click a word, get a finished card with screenshot and AI explanation in seconds. CI builds and publishes on every tagged release.",
+    highlights: [
+      "Secrets isolated in the MV3 service worker, never exposed to the page",
+      "Shadow-DOM overlay immune to YouTube style bleed",
+      "Papago for fast lookups, Claude for structured card enrichment",
+    ],
+    links: [
+      {
+        label: "View on GitHub ↗",
+        href: "https://github.com/benvasseur/korean-anki-miner",
+      },
+    ],
+    video: "/videos/korean-anki-miner.mp4",
+    poster: "/images/cases/korean-anki-miner.webp",
   },
 ];
 
-function CaseCard({ study, index }: { study: CaseStudy; index: number }) {
+function CaseMedia({
+  study,
+  onOpen,
+}: {
+  study: CaseStudy;
+  onOpen: () => void;
+}) {
   return (
-    <motion.article
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onOpen}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onOpen();
+        }
+      }}
+      aria-label={`Expand ${study.title}`}
+      className="group relative mt-[26px] aspect-[16/9] cursor-pointer overflow-hidden rounded-[2px] border border-ink/15 bg-chip transition-colors hover:border-accent"
+    >
+      {study.video ? (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster={study.poster}
+          className="h-full w-full object-cover object-bottom"
+        >
+          <source src={study.video} type="video/mp4" />
+        </video>
+      ) : study.image ? (
+        <Image
+          src={study.image}
+          alt={study.title}
+          width={study.imageWidth ?? 1600}
+          height={study.imageHeight ?? 900}
+          className="h-full w-full object-contain"
+        />
+      ) : null}
+
+      <span className="pointer-events-none absolute right-3 bottom-3 flex items-center gap-1.5 rounded-[2px] bg-accent px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-paper shadow-sm">
+        ⤢ Expand
+      </span>
+    </div>
+  );
+}
+
+function CaseBlock({
+  study,
+  index,
+  onOpen,
+}: {
+  study: CaseStudy;
+  index: number;
+  onOpen: () => void;
+}) {
+  return (
+    <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/50"
+      transition={{ duration: 0.5, delay: index * 0.05 }}
+      className="border-b border-ink/[0.08] py-14"
     >
-      {/* Media section */}
-      <div className="relative w-full overflow-hidden bg-neutral-800">
-        {study.video ? (
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster={study.image}
-            className="w-full"
-          >
-            <source src={study.video} type="video/mp4" />
-          </video>
-        ) : study.image ? (
-          <Image
-            src={study.image}
-            alt={study.title}
-            width={study.imageWidth ?? 1410}
-            height={study.imageHeight ?? 809}
-            className="w-full h-auto"
-          />
-        ) : (
-          <div className="flex h-48 items-center justify-center text-neutral-600">
-            <p className="text-sm">Screenshot / Video placeholder</p>
-          </div>
-        )}
+      <div className="flex justify-between font-mono text-xs uppercase tracking-[0.06em] text-label">
+        <span className="text-accent">
+          {study.num} / {study.client}
+        </span>
+        <span>{study.period}</span>
       </div>
 
-      {/* Content */}
-      <div className="p-6 sm:p-8">
-        <div className="mb-4 flex flex-wrap items-center gap-3">
-          <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
-            {study.company}
-          </span>
-          <span className="text-xs text-neutral-500">{study.period}</span>
-        </div>
+      <div className="mt-7 grid grid-cols-1 items-start gap-8 md:grid-cols-[1.1fr_1fr] md:gap-[52px]">
+        <div>
+          <h3 className="text-[28px] font-semibold leading-[1.05] tracking-[-0.02em] text-ink sm:text-[38px]">
+            {study.title}
+          </h3>
 
-        <h3 className="mb-4 text-xl font-bold text-neutral-100 sm:text-2xl">
-          {study.title}
-        </h3>
-
-        <div className="space-y-4">
-          <div>
-            <h4 className="mb-1 text-xs font-semibold tracking-widest text-neutral-500 uppercase">
-              Context
-            </h4>
-            <p className="text-sm leading-relaxed text-neutral-400">
-              {study.context}
-            </p>
+          <div className="mt-[26px] flex items-baseline gap-[18px]">
+            <div className="text-[52px] font-semibold leading-[0.85] tracking-[-0.03em] text-ink sm:text-[76px]">
+              {study.metric}
+              <span className="text-accent">{study.unit}</span>
+            </div>
+            <div className="font-mono text-xs leading-[1.5] text-label">
+              {study.metricLabel}
+            </div>
           </div>
 
-          <div>
-            <h4 className="mb-1 text-xs font-semibold tracking-widest text-neutral-500 uppercase">
-              Challenge
-            </h4>
-            <p className="text-sm leading-relaxed text-neutral-400">
-              {study.challenge}
-            </p>
-          </div>
+          <CaseMedia study={study} onOpen={onOpen} />
 
-          <div>
-            <h4 className="mb-1 text-xs font-semibold tracking-widest text-neutral-500 uppercase">
-              Solution
-            </h4>
-            <p className="text-sm leading-relaxed text-neutral-400">
-              {study.solution}
-            </p>
-          </div>
-
-          <div className="rounded-lg bg-accent/5 border border-accent/10 p-4">
-            <h4 className="mb-1 text-xs font-semibold tracking-widest text-accent uppercase">
-              Result
-            </h4>
-            <p className="text-sm leading-relaxed text-neutral-300">
-              {study.result}
-            </p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {study.tags.map((t) => (
+              <span
+                key={t}
+                className="rounded-[2px] bg-chip px-[11px] py-[5px] font-mono text-xs text-chip-ink"
+              >
+                {t}
+              </span>
+            ))}
           </div>
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-2">
-          {study.tech.map((t) => (
-            <span
-              key={t}
-              className="rounded-md border border-neutral-700 bg-neutral-800 px-2.5 py-1 text-xs text-neutral-300"
-            >
-              {t}
-            </span>
+        <div className="flex flex-col gap-[22px] pt-1.5">
+          {(
+            [
+              ["Challenge", study.challenge],
+              ["Solution", study.solution],
+              ["Result", study.result],
+            ] as const
+          ).map(([label, body]) => (
+            <div key={label}>
+              <div className="font-mono text-[11px] uppercase tracking-[0.1em] text-accent">
+                {label}
+              </div>
+              <div className="mt-2 text-[15px] leading-[1.6] text-muted">
+                {body}
+              </div>
+            </div>
           ))}
         </div>
-
-        {study.link && (
-          <a
-            href={study.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-neutral-400 transition-colors hover:text-accent"
-          >
-            <svg
-              className="h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.34-5.47-5.95 0-1.31.47-2.39 1.24-3.23-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.92 1.23 3.23 0 4.62-2.81 5.64-5.49 5.94.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z" />
-            </svg>
-            View on GitHub
-          </a>
-        )}
       </div>
-    </motion.article>
+    </motion.div>
   );
 }
 
 export default function CaseStudies() {
+  const [openCase, setOpenCase] = useState<CaseStudy | null>(null);
+
   return (
-    <section id="cases" className="px-6 py-24">
-      <div className="mx-auto max-w-4xl">
-        <SectionHeading
-          title="Case Studies"
-          subtitle="Deep dives into the hardest engineering problems I've solved"
+    <section
+      id="work"
+      className="mx-auto max-w-[1080px] px-6 pt-24 sm:px-10 sm:pt-[96px]"
+    >
+      <SectionHeading title="Selected work" meta="Deep dives" />
+      {cases.map((study, i) => (
+        <CaseBlock
+          key={study.num}
+          study={study}
+          index={i}
+          onOpen={() => setOpenCase(study)}
         />
-        <div className="space-y-12">
-          {cases.map((study, i) => (
-            <CaseCard key={study.id} study={study} index={i} />
-          ))}
-        </div>
-      </div>
+      ))}
+
+      {openCase && (
+        <CaseModal caseStudy={openCase} onClose={() => setOpenCase(null)} />
+      )}
     </section>
   );
 }

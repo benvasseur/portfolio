@@ -1,90 +1,53 @@
 "use client";
 
 import { motion } from "framer-motion";
-import SectionHeading from "./SectionHeading";
 
 export default function Contact() {
   return (
-    <section id="contact" className="px-6 py-24">
-      <div className="mx-auto max-w-4xl">
-        <SectionHeading
-          title="Get in Touch"
-          subtitle="Open to new opportunities"
-        />
+    <section id="contact" className="mt-24 bg-dark text-dark-ink sm:mt-[96px]">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5 }}
+        className="mx-auto max-w-[1080px] px-6 pt-[88px] pb-16 sm:px-10"
+      >
+        <p className="font-mono text-xs uppercase tracking-[0.12em] text-dark-accent">
+          Open to new opportunities
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-          className="rounded-2xl border border-neutral-800 bg-neutral-900/50 p-8 sm:p-12"
-        >
-          <p className="mb-8 max-w-lg text-neutral-400 leading-relaxed">
-            I&apos;m currently looking for new opportunities. Whether you have a
-            question or just want to say hi, feel free to reach out.
-          </p>
+        <h2 className="mt-5 text-[44px] font-semibold leading-[0.98] tracking-[-0.03em] sm:text-[64px]">
+          Let&apos;s talk.
+        </h2>
 
-          <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-4">
-            <a
-              href="mailto:benvasseur59@gmail.com"
-              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-dim"
-            >
-              <svg
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-              benvasseur59@gmail.com
-            </a>
+        <p className="mt-6 max-w-[520px] text-[19px] leading-[1.5] text-dark-muted">
+          Currently looking for new opportunities. A question or just a hello,
+          either is welcome.
+        </p>
 
-            <a
-              href="tel:+82-010-6382-8532"
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-6 py-3 text-sm font-medium text-neutral-300 transition-colors hover:border-neutral-500 hover:text-neutral-100"
-            >
-              <svg
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                />
-              </svg>
-              (+82) 010-6382-8532
-            </a>
+        <div className="mt-10 flex flex-wrap items-center gap-[18px]">
+          <a
+            href="mailto:benvasseur59@gmail.com"
+            className="rounded-[2px] bg-dark-ink px-6 py-[14px] text-[15px] font-medium text-dark transition-opacity hover:opacity-90"
+          >
+            benvasseur59@gmail.com
+          </a>
+          <a
+            href="https://linkedin.com/in/vasseurbenjamin"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-[2px] border border-dark-ink/30 px-6 py-[14px] text-[15px] font-medium text-dark-ink transition-colors hover:border-dark-ink/60"
+          >
+            LinkedIn ↗
+          </a>
+        </div>
 
-            <a
-              href="https://linkedin.com/in/vasseurbenjamin"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-6 py-3 text-sm font-medium text-neutral-300 transition-colors hover:border-neutral-500 hover:text-neutral-100"
-            >
-              <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-              LinkedIn
-            </a>
-          </div>
-
-          <div className="mt-8 flex items-center gap-4 text-sm text-neutral-500">
-            <span>Seoul, South Korea</span>
-            <span className="h-1 w-1 rounded-full bg-neutral-600" />
-            <span>F-2 Visa (long-term resident)</span>
-          </div>
-        </motion.div>
-      </div>
+        <div className="mt-20 flex flex-wrap justify-between gap-3 border-t border-dark-ink/[0.12] pt-7 font-mono text-xs text-dark-faint">
+          <span>Seoul, South Korea · F-2 visa</span>
+          <span>FR native · EN fluent · KO TOPIK 2</span>
+          <span>© 2026 Benjamin Vasseur</span>
+        </div>
+      </motion.div>
     </section>
   );
 }

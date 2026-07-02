@@ -1,56 +1,46 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
 
 const links = [
   { label: "About", href: "#about" },
-  { label: "Case Studies", href: "#cases" },
+  { label: "Work", href: "#work" },
   { label: "Experience", href: "#experience" },
-  { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
 ];
 
 export default function Nav() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <motion.nav
-      initial={{ y: -80 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <nav className="sticky top-0 z-20 border-b border-ink/10 bg-paper/85 backdrop-blur-md">
+      <div className="mx-auto flex max-w-[1080px] items-center justify-between px-6 py-5 sm:px-10">
         <a
           href="#"
-          className="flex h-8 w-8 items-center justify-center rounded-md border border-accent/40 text-sm font-bold text-neutral-100 transition-colors hover:border-accent hover:text-accent"
+          className="font-mono text-[15px] font-medium tracking-[0.04em] text-ink"
         >
-          BV
+          BV<span className="text-accent">.</span>
         </a>
 
         {/* Desktop links */}
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-[30px] md:flex">
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-neutral-400 transition-colors hover:text-neutral-100"
+              className="font-mono text-xs uppercase tracking-[0.06em] text-label transition-colors hover:text-ink"
             >
               {link.label}
             </a>
           ))}
+          <a
+            href="/Benjamin_Vasseur_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-[2px] border border-ink/25 px-[14px] py-2 font-mono text-xs uppercase tracking-[0.06em] text-ink transition-colors hover:border-ink/60"
+          >
+            Résumé ↗
+          </a>
         </div>
 
         {/* Mobile menu button */}
@@ -60,17 +50,17 @@ export default function Nav() {
           aria-label="Toggle menu"
         >
           <span
-            className={`block h-0.5 w-6 bg-neutral-300 transition-transform ${
+            className={`block h-0.5 w-6 bg-ink transition-transform ${
               mobileOpen ? "translate-y-2 rotate-45" : ""
             }`}
           />
           <span
-            className={`block h-0.5 w-6 bg-neutral-300 transition-opacity ${
+            className={`block h-0.5 w-6 bg-ink transition-opacity ${
               mobileOpen ? "opacity-0" : ""
             }`}
           />
           <span
-            className={`block h-0.5 w-6 bg-neutral-300 transition-transform ${
+            className={`block h-0.5 w-6 bg-ink transition-transform ${
               mobileOpen ? "-translate-y-2 -rotate-45" : ""
             }`}
           />
@@ -79,25 +69,30 @@ export default function Nav() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          className="border-b border-neutral-800 bg-neutral-950/95 backdrop-blur-md md:hidden"
-        >
+        <div className="border-t border-ink/10 bg-paper/95 backdrop-blur-md md:hidden">
           <div className="flex flex-col gap-4 px-6 py-6">
             {links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="text-neutral-300 transition-colors hover:text-neutral-100"
+                className="font-mono text-xs uppercase tracking-[0.06em] text-label transition-colors hover:text-ink"
               >
                 {link.label}
               </a>
             ))}
+            <a
+              href="/Benjamin_Vasseur_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileOpen(false)}
+              className="font-mono text-xs uppercase tracking-[0.06em] text-ink"
+            >
+              Résumé ↗
+            </a>
           </div>
-        </motion.div>
+        </div>
       )}
-    </motion.nav>
+    </nav>
   );
 }

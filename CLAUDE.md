@@ -1,6 +1,7 @@
 # CLAUDE.md
 
-Personal portfolio site for Benjamin Vasseur. Single-page, dark, minimal.
+Personal portfolio site for Benjamin Vasseur. Single-page, light editorial
+("warm paper") layout with a single terracotta accent.
 
 ## Commands
 - `npm run dev` - local dev server at http://localhost:3000
@@ -20,22 +21,37 @@ actions, route handlers, or any feature that needs a Node runtime. Images use
 
 ## Architecture
 - `src/app/page.tsx` - the whole page; composes the section components in order.
-- `src/app/layout.tsx` - root layout, fonts, metadata, Umami analytics script.
+- `src/app/layout.tsx` - root layout, Geist / Geist Mono fonts, metadata, Umami
+  analytics script.
 - `src/app/globals.css` - Tailwind import + design tokens via `@theme inline`.
-- `src/components/*` - one file per page section (Hero, About, CaseStudies,
-  Experience, Skills, Contact, Footer, Nav) plus shared `SectionHeading`.
+- `src/components/*` - one file per page section (Hero, LiveTrace, About,
+  CaseStudies, Experience, Skills, Contact, Nav) plus shared `SectionHeading`.
+  The contact section is the dark footer (there is no separate `Footer`).
+- `CaseModal.tsx` is the case-study lightbox: clicking a case's media opens a
+  modal that plays the video full-width, with an extended write-up. It locks
+  body scroll, traps focus, and closes on backdrop click / × / Escape.
+- `LiveTrace.tsx` is the signature hero element: a `<canvas>` EEG waveform
+  animating at 60fps via `requestAnimationFrame` (falls back to a static frame
+  under `prefers-reduced-motion`).
 - `public/` - resume PDF, favicon, and case-study images/videos.
 - Import with the `@/` alias (maps to `src/`).
 
 ## Conventions
-- **Design: dark and minimal.** Use the theme tokens from `globals.css`
-  (`neutral-100..950`, `accent`, `accent-dim`) rather than arbitrary hex values.
+- **Design: light, editorial, minimal.** Use the theme tokens from `globals.css`
+  (`paper`, `ink`, `ink-strong`, `muted`, `label`, `faint`, `chip`, `chip-ink`,
+  `accent`, plus the `dark-*` set for the contact section) rather than arbitrary
+  hex values. Hairline borders use opacity modifiers, e.g. `border-ink/10`.
+  Content is centered at `max-w-[1080px]` with `px-6 sm:px-10`; radius is a
+  sharp `rounded-[2px]`.
+- **Fonts:** Geist (sans) and Geist Mono, exposed as `--font-geist-sans` /
+  `--font-geist-mono`. Mono is used for eyebrows, labels, metadata, and chips.
 - **Section components are client components** (`"use client"`) and animate in
   with Framer Motion. Match the existing pattern: `initial`/`animate` for
   above-the-fold (Hero), `whileInView` with `viewport={{ once: true }}` for
   sections further down. See `Hero.tsx` and `SectionHeading.tsx`.
 - Styling is Tailwind utility classes inline; no CSS modules.
-- **No em dashes in copy** - they read as AI-generated.
+- **No em dashes in copy** - they read as AI-generated. Use en dashes for
+  numeric ranges and middots (`·`) or a rewrite for prose separators.
 
 ## Deploy
 Netlify builds `npm run build` and publishes `out/`.
