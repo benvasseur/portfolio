@@ -17,7 +17,7 @@ export default function Hero() {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="font-mono text-xs uppercase tracking-[0.14em] text-accent"
       >
-        Full-stack developer · Seoul, KR
+        Full-stack Engineer · Seoul, KR
       </motion.p>
 
       <motion.h1
