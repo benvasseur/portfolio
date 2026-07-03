@@ -39,7 +39,7 @@ const cases: CaseStudy[] = [
     num: "01",
     client: "LVIS Corp",
     period: "2024–2025",
-    role: "Front-End Developer",
+    role: "Software Engineer",
     title: "Live EEG Amplitude Heatmap",
     metric: "20",
     unit: "×",

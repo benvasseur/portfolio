@@ -14,7 +14,7 @@ const expRows: ExpRow[] = [
   {
     dates: "Aug 2024 – Sep 2025",
     company: "LVIS Corp",
-    role: "Front-End Developer · Seoul",
+    role: "Software Engineer · Seoul",
     summary:
       "EEG analysis platform with AI. Canvas amplitude heatmap, 3–4 → 60 FPS (20× faster). Led user/team app with Stripe & KG Inicis.",
   },
