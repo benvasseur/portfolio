@@ -98,7 +98,7 @@ const cases: CaseStudy[] = [
     metric: "~2",
     unit: "s",
     metricLabel: "click → finished\nAnki card, end to end",
-    tags: ["Vue 3", "TypeScript", "WXT", "Chrome MV3", "Claude"],
+    tags: ["Vue 3", "TypeScript", "WXT", "Chrome MV3", "Claude", "Mistral"],
     overview:
       "A browser extension that turns any Korean word on a YouTube subtitle into a complete Anki flashcard: screenshot, translation and an AI-written explanation, in a couple of seconds.",
     challenge:
@@ -224,6 +224,22 @@ function CaseBlock({
               </span>
             ))}
           </div>
+
+          {study.links && study.links.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-4">
+              {study.links.map((ln) => (
+                <a
+                  key={ln.href}
+                  href={ln.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-[13px] text-accent hover:underline"
+                >
+                  {ln.label}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col gap-[22px] pt-1.5">

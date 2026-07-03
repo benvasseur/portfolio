@@ -27,6 +27,10 @@ const skillGroups: SkillGroup[] = [
     items: ["Node.js", "Express", "Python", "PHP", "REST APIs"],
   },
   {
+    name: "AI",
+    items: ["Claude", "Mistral AI"],
+  },
+  {
     name: "Database",
     items: ["PostgreSQL", "MySQL", "MongoDB", "MariaDB"],
   },
