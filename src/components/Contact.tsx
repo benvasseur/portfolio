@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-export default function Contact() {
+export default function Contact({ year }: { year: number }) {
   return (
     <section id="contact" className="mt-24 bg-dark text-dark-ink sm:mt-[96px]">
       <motion.div
@@ -43,9 +43,9 @@ export default function Contact() {
         </div>
 
         <div className="mt-20 flex flex-wrap justify-between gap-3 border-t border-dark-ink/[0.12] pt-7 font-mono text-xs text-dark-faint">
-          <span>Seoul, South Korea · F-2 visa</span>
+          <span>Seoul, South Korea · F-2 visa, no sponsorship needed</span>
           <span>FR native · EN fluent · KO TOPIK 2</span>
-          <span>© 2026 Benjamin Vasseur</span>
+          <span>© {year} Benjamin Vasseur</span>
         </div>
       </motion.div>
     </section>

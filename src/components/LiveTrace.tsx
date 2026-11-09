@@ -8,8 +8,11 @@ interface LiveTraceProps {
   traceSpeed?: number;
 }
 
-const COLOR = "#c8553a";
+const FALLBACK_COLOR = "#c8553a";
 const COLS = 320;
+// The trace advances in fixed 60 Hz steps, so it scrolls at the same speed
+// on 60 Hz and 120 Hz displays.
+const STEP_MS = 1000 / 60;
 
 export default function LiveTrace({
   liveTrace = true,
@@ -24,6 +27,9 @@ export default function LiveTrace({
     const ctx = cv.getContext("2d");
     if (!ctx) return;
 
+    const color =
+      getComputedStyle(cv).getPropertyValue("--color-accent").trim() ||
+      FALLBACK_COLOR;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const N = Math.max(1, traceLines);
     const data = Array.from({ length: N }, () => new Array(COLS).fill(0));
@@ -60,7 +66,7 @@ export default function LiveTrace({
       ctx.clearRect(0, 0, w, h);
       const laneH = h / N;
       ctx.lineWidth = 1.3;
-      ctx.strokeStyle = COLOR;
+      ctx.strokeStyle = color;
       ctx.lineJoin = "round";
       ctx.globalAlpha = 0.85;
       for (let i = 0; i < N; i++) {
@@ -79,6 +85,9 @@ export default function LiveTrace({
       ctx.globalAlpha = 1;
     };
 
+    const onResize = () => render();
+    window.addEventListener("resize", onResize);
+
     const prefersReduced =
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -87,20 +96,39 @@ export default function LiveTrace({
       // Draw a single static frame with a pre-filled buffer.
       for (let i = 0; i < COLS; i++) advance();
       render();
-      return;
+      return () => window.removeEventListener("resize", onResize);
     }
 
-    const tick = () => {
-      advance();
-      render();
+    let last = 0;
+    let acc = 0;
+    const tick = (now: number) => {
+      // Cap the catch-up after a stall so the trace doesn't lurch forward.
+      if (last) acc += Math.min(now - last, 250);
+      last = now;
+      let stepped = false;
+      while (acc >= STEP_MS) {
+        advance();
+        acc -= STEP_MS;
+        stepped = true;
+      }
+      if (stepped) render();
       rafId = requestAnimationFrame(tick);
     };
-    rafId = requestAnimationFrame(tick);
 
-    const onResize = () => resize();
-    window.addEventListener("resize", onResize);
+    // Only animate while the trace is on screen.
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !rafId) {
+        last = 0;
+        rafId = requestAnimationFrame(tick);
+      } else if (!entry.isIntersecting && rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+      }
+    });
+    observer.observe(cv);
 
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(rafId);
       window.removeEventListener("resize", onResize);
     };
@@ -108,7 +136,7 @@ export default function LiveTrace({
 
   return (
     <div className="relative mt-16 h-[180px] overflow-hidden border-y border-ink/10">
-      <canvas ref={canvasRef} className="block h-full w-full" />
+      <canvas ref={canvasRef} aria-hidden="true" className="block h-full w-full" />
       <div className="pointer-events-none absolute inset-x-0 bottom-4">
         <div className="mx-auto max-w-[1080px] px-6 sm:px-10">
           <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-faint">

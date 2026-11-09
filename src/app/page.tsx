@@ -19,7 +19,8 @@ export default function Home() {
         <Experience />
         <Skills />
       </main>
-      <Contact />
+      {/* Evaluated at build time (static export), so it updates on each deploy. */}
+      <Contact year={new Date().getFullYear()} />
     </>
   );
 }

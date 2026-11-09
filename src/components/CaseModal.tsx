@@ -52,7 +52,7 @@ export default function CaseModal({
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-[#16140f]/72 px-6 py-14 backdrop-blur-[6px]"
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-dark/72 px-6 py-14 backdrop-blur-[6px]"
     >
       <div
         ref={panelRef}
@@ -64,9 +64,11 @@ export default function CaseModal({
         className="w-full max-w-[1000px] overflow-hidden rounded-[3px] bg-paper shadow-[0_24px_80px_rgba(0,0,0,0.4)] outline-none"
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-ink/[0.12] px-7 py-5">
+        <div className="flex items-center justify-between gap-4 border-b border-ink/[0.12] px-7 py-5">
           <div className="font-mono text-xs uppercase tracking-[0.06em] text-accent">
-            {caseStudy.num} / {caseStudy.client} · {caseStudy.period}
+            {caseStudy.num} / {caseStudy.client} ·{" "}
+            {caseStudy.role && `${caseStudy.role} · `}
+            {caseStudy.period}
           </div>
           <button
             type="button"
@@ -97,11 +99,11 @@ export default function CaseModal({
 
         {/* Body */}
         <div className="px-10 pt-9 pb-11">
-          <h3 className="text-[34px] font-semibold leading-[1.05] tracking-[-0.02em] text-ink">
+          <h3 className="break-keep text-[34px] font-semibold leading-[1.05] tracking-[-0.02em] text-ink">
             {caseStudy.title}
           </h3>
 
-          <div className="mt-[18px] flex items-baseline gap-4">
+          <div className="mt-[18px] flex items-baseline-last gap-4">
             <div className="text-[56px] font-semibold leading-[0.85] tracking-[-0.03em] text-ink">
               {caseStudy.metric}
               <span className="text-accent">{caseStudy.unit}</span>

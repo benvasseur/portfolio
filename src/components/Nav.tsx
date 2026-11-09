@@ -45,9 +45,12 @@ export default function Nav() {
 
         {/* Mobile menu button */}
         <button
+          type="button"
           onClick={() => setMobileOpen(!mobileOpen)}
           className="flex flex-col gap-1.5 md:hidden"
           aria-label="Toggle menu"
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-menu"
         >
           <span
             className={`block h-0.5 w-6 bg-ink transition-transform ${
@@ -69,7 +72,10 @@ export default function Nav() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="border-t border-ink/10 bg-paper/95 backdrop-blur-md md:hidden">
+        <div
+          id="mobile-menu"
+          className="border-t border-ink/10 bg-paper/95 backdrop-blur-md md:hidden"
+        >
           <div className="flex flex-col gap-4 px-6 py-6">
             {links.map((link) => (
               <a
