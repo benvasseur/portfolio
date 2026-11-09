@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const metrics = [
   { value: "60", unit: " FPS", label: "Up from 3–4 FPS" },
-  { value: "6", unit: " continents", label: "Fortune 500 clients" },
+  { value: "50", unit: "%", label: "Less render time" },
   { value: "14", unit: "+", label: "Years experience" },
 ];
 
