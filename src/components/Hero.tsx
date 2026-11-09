@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 
 const metrics = [
-  { value: "20", unit: "×", label: "Rendering speed" },
-  { value: "50", unit: "%", label: "Load time cut" },
+  { value: "60", unit: " FPS", label: "Up from 3–4 FPS" },
+  { value: "6", unit: "", label: "Continents · Fortune 500 clients" },
   { value: "14", unit: "+", label: "Years experience" },
 ];
 
@@ -17,7 +17,7 @@ export default function Hero() {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="font-mono text-xs uppercase tracking-[0.14em] text-accent"
       >
-        Full-stack Engineer · Seoul, KR
+        Senior Full-Stack Engineer · Seoul, KR · F-2 visa, no sponsorship needed
       </motion.p>
 
       <motion.h1
@@ -37,7 +37,7 @@ export default function Hero() {
         transition={{ duration: 0.5, delay: 0.5 }}
         className="mt-[30px] max-w-[620px] text-[22px] leading-[1.5] text-muted"
       >
-        I build production systems end to end: REST APIs and microservices in Node.js, plus the data-heavy React and WebGL interfaces on top.
+        I build production systems end to end: REST APIs and microservices in Node.js, plus the data-heavy React and WebGL interfaces on top. I&apos;ve led a development team, run services on AWS and Kubernetes, and optimized demanding medical imaging tools.
       </motion.p>
 
       <motion.div
@@ -76,6 +76,14 @@ export default function Hero() {
           className="rounded-[2px] border border-ink/25 px-6 py-[14px] text-sm font-medium text-ink transition-colors hover:border-ink/60"
         >
           Get in touch
+        </a>
+        <a
+          href="/Benjamin_Vasseur_Resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-[2px] border border-ink/25 px-6 py-[14px] text-sm font-medium text-ink transition-colors hover:border-ink/60"
+        >
+          Résumé ↗
         </a>
       </motion.div>
     </section>

@@ -24,19 +24,39 @@ const skillGroups: SkillGroup[] = [
   },
   {
     name: "Back-End",
-    items: ["Node.js", "Express", "Python", "PHP", "REST APIs"],
+    items: [
+      "Node.js",
+      "Express",
+      "NestJS",
+      "Python",
+      "Django",
+      "Payload CMS",
+      "PHP",
+      "REST APIs",
+      "Microservices",
+    ],
   },
   {
     name: "AI",
-    items: ["Claude", "Mistral AI"],
+    items: ["LLM API integration", "Claude", "OpenAI", "Mistral AI"],
   },
   {
     name: "Database",
-    items: ["PostgreSQL", "MySQL", "MongoDB", "MariaDB"],
+    items: ["PostgreSQL", "MySQL", "MongoDB", "MariaDB", "Redis"],
   },
   {
     name: "DevOps",
-    items: ["Docker", "AWS", "CI/CD", "Vercel", "Cypress", "Git", "Figma"],
+    items: [
+      "Docker",
+      "AWS",
+      "Kubernetes",
+      "CI/CD",
+      "Vercel",
+      "Cypress",
+      "Playwright",
+      "Git",
+      "Figma",
+    ],
   },
   {
     name: "Languages",

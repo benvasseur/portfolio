@@ -8,29 +8,41 @@ interface ExpRow {
   company: string;
   role: string;
   summary: string;
+  link?: { label: string; href: string };
 }
 
 const expRows: ExpRow[] = [
+  {
+    dates: "Sep 2025 – Present",
+    company: "Independent",
+    role: "Full-Stack Engineer · Seoul",
+    summary:
+      "Korean study and self-directed products. Shipped 오늘의 이야기, a daily Korean reader with an AI content pipeline, and Korean Anki Miner. Building Mosida, a multilingual wedding invitation platform (NestJS, Next.js, Postgres). Experimenting with browser games for learning Korean (Phaser 4).",
+    link: {
+      label: "Play the games ↗",
+      href: "https://koreanmemory.netlify.app/",
+    },
+  },
   {
     dates: "Aug 2024 – Sep 2025",
     company: "LVIS Corp",
     role: "Software Engineer · Seoul",
     summary:
-      "EEG analysis platform with AI. Canvas amplitude heatmap, 3–4 → 60 FPS (20× faster). Led user/team app with Stripe & KG Inicis.",
+      "EEG analysis platform with AI. Canvas amplitude heatmap, 3–4 → 60 FPS. Led user/team app with Stripe & KG Inicis.",
   },
   {
     dates: "Dec 2021 – Dec 2023",
     company: "Lunit",
     role: "Front-End Developer · Seoul",
     summary:
-      "AI cancer-cell viewer on whole-slide images. React + WebGL + Web Workers; 50% faster on 5GB slides. Nx/Turborepo design system.",
+      "AI cancer-cell viewer on whole-slide images. React + WebGL + Web Workers; 50% less render time on 5GB slides. Nx/Turborepo design system.",
   },
   {
     dates: "Feb 2019 – Dec 2021",
     company: "Global Coach Group",
     role: "Full-Stack Lead · Seoul",
     summary:
-      "Led a team of 3, set review & architecture standards. Node/Python REST APIs. 12-language localization via Lokalise.",
+      "Led a team of 3 on a platform for Fortune 500 clients. Node.js PDF-report microservice, Django/Node REST API design, AWS/Kubernetes. 13 languages via Lokalise.",
   },
   {
     dates: "Jun 2015 – Feb 2019",
@@ -61,7 +73,7 @@ export default function Experience() {
       id="experience"
       className="mx-auto max-w-[1080px] px-6 pt-24 sm:px-10 sm:pt-[96px]"
     >
-      <SectionHeading title="Experience" meta="2011–2025" />
+      <SectionHeading title="Experience" meta="2011–Present" />
 
       {expRows.map((row, i) => (
         <motion.div
@@ -83,6 +95,16 @@ export default function Experience() {
           </div>
           <div className="text-[14px] leading-[1.55] text-muted">
             {row.summary}
+            {row.link && (
+              <a
+                href={row.link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1.5 block w-fit font-mono text-[13px] text-accent hover:underline"
+              >
+                {row.link.label}
+              </a>
+            )}
           </div>
         </motion.div>
       ))}

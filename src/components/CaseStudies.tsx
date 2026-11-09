@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import SectionHeading from "./SectionHeading";
@@ -41,9 +41,9 @@ const cases: CaseStudy[] = [
     period: "2024–2025",
     role: "Software Engineer",
     title: "Live EEG Amplitude Heatmap",
-    metric: "20",
-    unit: "×",
-    metricLabel: "faster rendering\n3–4 FPS → stable 60 FPS",
+    metric: "60",
+    unit: " FPS",
+    metricLabel: "stable rendering,\nup from 3–4 FPS",
     tags: ["Vue.js", "Canvas API", "TypeScript"],
     overview:
       "A clinical EEG platform streaming continuous multi-channel brain activity. The amplitude heatmap is the primary read surface: clinicians scrub through hours of signal, so any stutter directly hurts diagnosis.",
@@ -60,7 +60,7 @@ const cases: CaseStudy[] = [
     ],
     links: [],
     video: "/videos/lvis-amplitude.mp4",
-    poster: "/images/cases/lvis-amplitude.png",
+    poster: "/images/cases/lvis-amplitude.webp",
   },
   {
     num: "02",
@@ -91,6 +91,47 @@ const cases: CaseStudy[] = [
   },
   {
     num: "03",
+    client: "Side project",
+    period: "2026",
+    role: "Solo build",
+    // Non-breaking space keeps the Korean name on one line.
+    title: "Daily Korean Reader (오늘의 이야기)",
+    metric: "2",
+    unit: "+1",
+    metricLabel: "independent AI reviews,\nthen human approval",
+    tags: [
+      "Next.js",
+      "Payload CMS",
+      "PostgreSQL",
+      "Claude",
+      "OpenAI",
+      "whisper.cpp",
+      "Playwright",
+    ],
+    overview:
+      "A daily reading habit for intermediate Korean learners (TOPIK 3–4): one short story a day with tap-to-gloss on every word, a grammar point, read-along audio and a TOPIK-style quiz. Reader accounts with Google and Kakao sign-in keep streaks and scores in sync.",
+    challenge:
+      "Publish a new, correct story every day as a solo developer. AI writes Korean at scale, but one unnatural sentence or wrong gloss loses learners, and native-level review doesn't scale.",
+    solution:
+      "A model-agnostic pipeline: any AI can write a story as a pull request (Claude, Codex, Gemini and Mistral so far). Separate Claude and Codex sessions then review it independently and solve the quiz blind. CI merges only the exact verified content; a person approves and schedules every story in the Payload admin.",
+    result:
+      "Live since October 15 with a new story every day, AI-drawn covers and read-along audio where the spoken word lights up. 340+ automated tests across Vitest and Playwright.",
+    highlights: [
+      "Two independent AI reviews plus a blind quiz solve, tied to a content hash before CI can merge; Mistral was tested as a third reviewer and dropped for weak Korean",
+      "Read-along audio: Google TTS voices word-timed by a local whisper.cpp, calibrated so 67 of 68 words land within 150 ms",
+      "Payload 3 and Next.js in one app on Vercel and Supabase (Seoul); Google and Kakao OAuth in plain fetch, no auth library",
+    ],
+    links: [
+      {
+        label: "Visit oiyagi.com ↗",
+        href: "https://oiyagi.com",
+      },
+    ],
+    video: "/videos/oiyagi.mp4",
+    poster: "/images/cases/oiyagi.webp",
+  },
+  {
+    num: "04",
     client: "Side project",
     period: "2026",
     role: "Solo build",
@@ -130,6 +171,26 @@ function CaseMedia({
   study: CaseStudy;
   onOpen: () => void;
 }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Previews only download and play while near the viewport; with reduced
+  // motion they stay on the poster until opened in the modal.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      },
+      { rootMargin: "200px 0px" }
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
       role="button"
@@ -146,10 +207,11 @@ function CaseMedia({
     >
       {study.video ? (
         <video
-          autoPlay
+          ref={videoRef}
           loop
           muted
           playsInline
+          preload="none"
           poster={study.poster}
           className="h-full w-full object-cover object-bottom"
         >
@@ -189,25 +251,28 @@ function CaseBlock({
       transition={{ duration: 0.5, delay: index * 0.05 }}
       className="border-b border-ink/[0.08] py-14"
     >
-      <div className="flex justify-between font-mono text-xs uppercase tracking-[0.06em] text-label">
+      <div className="flex flex-wrap justify-between gap-x-6 gap-y-1 font-mono text-xs uppercase tracking-[0.06em] text-label">
         <span className="text-accent">
           {study.num} / {study.client}
         </span>
-        <span>{study.period}</span>
+        <span>
+          {study.role && `${study.role} · `}
+          {study.period}
+        </span>
       </div>
 
       <div className="mt-7 grid grid-cols-1 items-start gap-8 md:grid-cols-[1.1fr_1fr] md:gap-[52px]">
         <div>
-          <h3 className="text-[28px] font-semibold leading-[1.05] tracking-[-0.02em] text-ink sm:text-[38px]">
+          <h3 className="break-keep text-[28px] font-semibold leading-[1.05] tracking-[-0.02em] text-ink sm:text-[38px]">
             {study.title}
           </h3>
 
-          <div className="mt-[26px] flex items-baseline gap-[18px]">
+          <div className="mt-[26px] flex items-baseline-last gap-[18px]">
             <div className="text-[52px] font-semibold leading-[0.85] tracking-[-0.03em] text-ink sm:text-[76px]">
               {study.metric}
               <span className="text-accent">{study.unit}</span>
             </div>
-            <div className="font-mono text-xs leading-[1.5] text-label">
+            <div className="whitespace-pre-line font-mono text-xs leading-[1.5] text-label">
               {study.metricLabel}
             </div>
           </div>

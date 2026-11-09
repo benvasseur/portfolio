@@ -20,17 +20,20 @@ export default function About() {
         </div>
         <div className="max-w-[680px]">
           <p className="text-[21px] leading-[1.6] text-ink-strong">
-            I started in backend (PHP, then Node.js and Python), which still
-            shapes how I see full product systems end to end. Over the years I
-            moved to the front end across Angular, Vue, and React, focused on
-            maintainable UIs for complex applications.
+            I started in backend (PHP, then Node.js and Python) and still work
+            across the full stack: REST APIs and microservices, the databases
+            behind them, and deployment on AWS and Kubernetes. As lead at Global
+            Coach Group, I owned technical direction for a platform serving
+            Fortune 500 clients.
           </p>
           <p className="mt-6 text-[21px] leading-[1.6] text-ink-strong">
-            For 3+ years my work has centered on{" "}
+            On the front end I&apos;ve worked across Angular, Vue, and React. For
+            3+ years my work has centered on{" "}
             <b className="font-semibold">high-performance rendering</b>: Canvas
             and WebGL for real-time, data-heavy interfaces in medical and
-            scientific domains. Based in Seoul, I work comfortably across
-            international teams and time zones.
+            scientific domains. More recently I&apos;ve been building with LLM
+            APIs. Based in Seoul, I work comfortably across international teams
+            and time zones.
           </p>
         </div>
       </motion.div>
