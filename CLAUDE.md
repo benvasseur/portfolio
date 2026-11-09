@@ -6,7 +6,8 @@ Personal portfolio site for Benjamin Vasseur. Single-page, light editorial
 ## Commands
 - `npm run dev` - local dev server at http://localhost:3000
 - `npm run build` - static export to `out/` (this is what Netlify deploys)
-- `npm run start` - serve the production build
+- `npx serve out` - preview the production build (`npm run start` / `next start`
+  does not work with `output: "export"`)
 - `npm run lint` - ESLint (eslint-config-next)
 
 ## Stack
@@ -22,7 +23,13 @@ actions, route handlers, or any feature that needs a Node runtime. Images use
 ## Architecture
 - `src/app/page.tsx` - the whole page; composes the section components in order.
 - `src/app/layout.tsx` - root layout, Geist / Geist Mono fonts, metadata, Umami
-  analytics script.
+  analytics script. Wraps the app in `MotionProvider` (Framer Motion
+  `reducedMotion="user"`).
+- `src/app/opengraph-image.tsx` - social preview image, rendered at build time
+  with `next/og` from the TTFs in `src/assets/fonts/` (Satori can't use woff2).
+  Its colors mirror the theme tokens; keep it in sync with the hero. The export
+  has no file extension, so `netlify.toml` sets its `Content-Type`.
+- `src/app/robots.ts`, `src/app/sitemap.ts` - static `robots.txt` / `sitemap.xml`.
 - `src/app/globals.css` - Tailwind import + design tokens via `@theme inline`.
 - `src/components/*` - one file per page section (Hero, LiveTrace, About,
   CaseStudies, Experience, Skills, Contact, Nav) plus shared `SectionHeading`.
@@ -31,9 +38,13 @@ actions, route handlers, or any feature that needs a Node runtime. Images use
   modal that plays the video full-width, with an extended write-up. It locks
   body scroll, traps focus, and closes on backdrop click / × / Escape.
 - `LiveTrace.tsx` is the signature hero element: a `<canvas>` EEG waveform
-  animating at 60fps via `requestAnimationFrame` (falls back to a static frame
-  under `prefers-reduced-motion`).
-- `public/` - resume PDF, favicon, and case-study images/videos.
+  drawn via `requestAnimationFrame`, advancing in fixed 60 Hz steps so speed
+  doesn't depend on display refresh rate. It pauses while off-screen and falls
+  back to a static frame under `prefers-reduced-motion`.
+- `public/` - resume PDF, favicon, and case-study images/videos. Case-card
+  videos use `preload="none"` and only play while near the viewport. Encode new
+  videos at ≤1080p, H.264, CRF ~25–27, no audio, `-movflags +faststart`; posters
+  as WebP.
 - Import with the `@/` alias (maps to `src/`).
 
 ## Conventions
@@ -54,4 +65,9 @@ actions, route handlers, or any feature that needs a Node runtime. Images use
   numeric ranges and middots (`·`) or a rewrite for prose separators.
 
 ## Deploy
-Netlify builds `npm run build` and publishes `out/`.
+Netlify builds `npm run build` and publishes `out/` (build settings live in the
+Netlify UI). `netlify.toml` only pins Node 24 and sets headers: immutable
+caching for `/_next/static/*` and the OG image content type.
+
+Site copy should match `public/Benjamin_Vasseur_Resume.pdf`; cross-check
+numbers and titles against it when editing content.

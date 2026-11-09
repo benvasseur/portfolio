@@ -1,0 +1,18 @@
+# Build command and publish directory are set in the Netlify UI
+# (npm run build -> out/). This file only pins the runtime and adds headers.
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# Hashed build assets never change, so browsers can keep them for a year.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# The static export writes the Open Graph image without a file extension,
+# so Netlify can't infer its type.
+[[headers]]
+  for = "/opengraph-image"
+  [headers.values]
+    Content-Type = "image/png"
